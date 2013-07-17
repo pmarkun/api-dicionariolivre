@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  
+      <head>
+            <title>Dicionario Livre do santome-portugues</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+            <link rel="stylesheet" href="css/bootstrap.min.css">
+            <link rel="stylesheet" href="css/bootstrap-responsive.min.css"> 
+            <style>
+            .container {
+                text-align:center;
+            }
+            </style>
+      </head>
+
+      <body>
+            <div class="container">
+                <h2>Dicionario Livre do santome-portugues</h2>
+              <form id="buscar" class="form-search">
+                <input type="text" class="input-xxlarge search-query" placeholder="Palavra...">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+                <a id="hash"></a>
+              </form>
+              <div class="verbete">
+              </div>
+              <div class="navbar navbar-fixed-bottom">
+                  <a href="https://github.com/pmarkun/minidicionario-hedra-api">github</a> :: 
+                  <a href="http://www.hedra.com.br/livros/minidicionario-livre-da-lingua-portuguesa">hedra</a>
+            </div>
+            </div>
+            
+            <script src="js/jquery.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script>
+                if (window.location.hash) {
+                    var palavra = window.location.hash.slice(1);
+                    $("#buscar input").val(palavra);
+                    procurar(palavra);
+                }
+                
+                function procurar(palavra) {
+                    $(".verbete").attr("id", palavra);
+                    $("#hash").attr("href", "#"+palavra);
+                    window.location.hash = palavra;
+                    $(".verbete").fadeOut(1000, function() {
+                        $(".verbete").empty();    
+                        $.getJSON("http://127.0.0.1:5000/palavra/"+palavra, function (data){
+                                $('.verbete').append("<h3>" + palavra + " " + data.gramatical+"</h3>");
+                                $.each(data.equivalencia, function (indice, significado) {
+                                    $(".verbete").append("<h4>" + (indice+1) + ". " +significado+"</h4>").hide().fadeIn(1000);
+                                });
+                            });
+                        });
+                }
+                
+                $("#buscar button").click(function () {
+                    var palavra = $("#buscar input").val();
+                    procurar(palavra);
+                    return false;
+                });
+            </script>
+      </body>
+</html>
