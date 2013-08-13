@@ -7,9 +7,17 @@
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
             <link rel="stylesheet" href="css/bootstrap.min.css">
             <link rel="stylesheet" href="css/bootstrap-responsive.min.css"> 
+            <script src="js/jquery.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <script src="js/tempo.min.js"></script>
+            <script src="js/main.js"></script>
+            
             <style>
             .container {
                 text-align:center;
+            }
+            #verbetes .verbete {
+                text-align:justify;
             }
             </style>
       </head>
@@ -22,55 +30,16 @@
                 <button class="btn btn-primary" type="submit">Buscar</button>
                 <a id="hash"></a>
               </form>
-              <div class="verbete">
+              <div id="verbetes">
+                    <div class="verbete" data-template>
+                        <h3>{{lexema}}</h3>
+                        <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/> <span>{{equivalencia}}</span>
+                    </div>
               </div>
               <div class="navbar navbar-fixed-bottom">
                   <a href="https://github.com/pmarkun/minidicionario-hedra-api">github</a> :: 
                   <a href="http://www.hedra.com.br/livros/minidicionario-livre-da-lingua-portuguesa">hedra</a>
             </div>
             </div>
-            
-            <script src="js/jquery.min.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script>
-                SETTINGS = {};
-                SETTINGS['SERVER'] = 'http://127.0.0.1:9200/' 
-                
-                q = {
-                        "query" : {
-                            "query_string" : { 
-                                "query" : '',
-                                "fields" : ["lexema"],
-                                "default_operator" : "AND"
-                            },
-                        "size":10
-                        }
-                    }
-                if (window.location.hash) {
-                    var palavra = window.location.hash.slice(1);
-                    $("#buscar input").val(palavra);
-                    procurar(palavra);
-                }
-                
-                function procurar(palavra) {
-                    $(".resultados").attr("id", palavra);
-                    $("#hash").attr("href", "#"+palavra);
-                    window.location.hash = palavra;
-                    q['query']['query_string']['query'] = palavra;
-                    $.getJSON(SETTINGS['SERVER'] + 'dicionario/_search?source=' + JSON.stringify(q), function (data){
-                        $.each(data.hits.hits, function (index, t) {
-                            console.log(t);
-                            $('.verbete').append('<h3>'+t._source['lexema']+'</h3>');
-
-                        });
-                });
-            }
-                
-                $("#buscar button").click(function () {
-                    var palavra = $("#buscar input").val();
-                    procurar(palavra);
-                    return false;
-                });
-            </script>
       </body>
 </html>

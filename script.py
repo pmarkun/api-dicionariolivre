@@ -46,6 +46,8 @@ def write_verbetes(entradas, filename):
 def upa_neguim(verbetes):
 	print 'Connecting to ES...'
 	conn = pyes.ES('http://127.0.0.1:9200')
+	conn.delete_index_if_exists('dicionario')
+
 	try:
 		print 'Creating index...'
 		conn.indices.create_index("dicionario")
