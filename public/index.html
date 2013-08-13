@@ -33,6 +33,19 @@
             <script src="js/jquery.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
             <script>
+                SETTINGS = {};
+                SETTINGS['SERVER'] = 'http://127.0.0.1:9200/' 
+                
+                q = {
+                        "query" : {
+                            "query_string" : { 
+                                "query" : '',
+                                "fields" : ["lexema"],
+                                "default_operator" : "AND"
+                            },
+                        "size":10
+                        }
+                    }
                 if (window.location.hash) {
                     var palavra = window.location.hash.slice(1);
                     $("#buscar input").val(palavra);
@@ -40,19 +53,18 @@
                 }
                 
                 function procurar(palavra) {
-                    $(".verbete").attr("id", palavra);
+                    $(".resultados").attr("id", palavra);
                     $("#hash").attr("href", "#"+palavra);
                     window.location.hash = palavra;
-                    $(".verbete").fadeOut(1000, function() {
-                        $(".verbete").empty();    
-                        $.getJSON("http://127.0.0.1:5000/palavra/"+palavra, function (data){
-                                $('.verbete').append("<h3>" + palavra + " " + data.gramatical+"</h3>");
-                                $.each(data.equivalencia, function (indice, significado) {
-                                    $(".verbete").append("<h4>" + (indice+1) + ". " +significado+"</h4>").hide().fadeIn(1000);
-                                });
-                            });
+                    q['query']['query_string']['query'] = palavra;
+                    $.getJSON(SETTINGS['SERVER'] + 'dicionario/_search?source=' + JSON.stringify(q), function (data){
+                        $.each(data.hits.hits, function (index, t) {
+                            console.log(t);
+                            $('.verbete').append('<h3>'+t._source['lexema']+'</h3>');
+
                         });
-                }
+                });
+            }
                 
                 $("#buscar button").click(function () {
                     var palavra = $("#buscar input").val();

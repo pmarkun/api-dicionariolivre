@@ -1,9 +1,9 @@
 import re
 import json
-import pymongo
-from settings import *
+import pyes, pprint
+#from settings import *
 
-def parse_verbetes(filename='VERBETES.tex'):
+def parse_verbetes(filename='data/VERBETES.tex'):
 	verbetes_raw = open(filename, 'r').read()
 
 	italic = re.compile(r'\\textit{(.*?)}')
@@ -42,3 +42,32 @@ def write_verbetes(entradas, filename):
 	arquivo.write(json.dumps(entradas, sort_keys=True, indent=4, separators=(',', ': ')))
 	arquivo.close()
 
+
+def upa_neguim(verbetes):
+	print 'Connecting to ES...'
+	conn = pyes.ES('http://127.0.0.1:9200')
+	try:
+		print 'Creating index...'
+		conn.indices.create_index("dicionario")
+	except:
+		pass
+
+	mapping = {
+    	}
+
+	print 'Mapping...'
+	conn.indices.put_mapping("verbete", {'properties': mapping}, ["dicionario"])
+    
+	erros = 0
+	print 'Indexing!'
+	for p in verbetes:
+		#p = verbetes[v]
+		try:
+			conn.index(p, 'dicionario', 'verbete', bulk=True)
+		except:
+			print "erro"
+			erros = erros + 1
+	print erros
+
+verbetes =  parse_verbetes();
+upa_neguim(verbetes);
