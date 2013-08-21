@@ -4,7 +4,7 @@ q = {
         "query" : {
             "query_string" : { 
                 "query" : '',
-                "fields" : ["lexema", "lexema.clean"],
+                "fields" : ["lexema^5", "lexema.clean^5", "equivalencia", "equivalencia.clean"],
                 "default_operator" : "AND"
             },
         "size":10
