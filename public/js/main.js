@@ -4,7 +4,7 @@ q = {
         "query" : {
             "query_string" : { 
                 "query" : '',
-                "fields" : ["lexema"],
+                "fields" : ["lexema", "lexema.clean"],
                 "default_operator" : "AND"
             },
         "size":10
@@ -19,11 +19,12 @@ function procurar(palavra) {
     $.getJSON(SETTINGS['SERVER'] + 'dicionario/_search?source=' + JSON.stringify(q), function (data){
         $('.verbetes').fadeOut();
         tempo.clear();
+        if (data.hits.hits.length == 0) {
+            tempo.append({ "lexema" : "Verbete não encontrado."});
+        }
         $.each(data.hits.hits, function (index, t) {
             console.log(t);
             tempo.append(t['_source'])
-            
-
         });
     });
 }

@@ -48,13 +48,56 @@ def upa_neguim(verbetes):
 	conn = pyes.ES('http://127.0.0.1:9200')
 	conn.delete_index_if_exists('dicionario')
 
+	settings = {
+		"analysis": {
+			"analyzer": {
+				"index_analyzer": {
+					"tokenizer": "standard",
+					"filter": ["standard", "lowercase", "asciifolding", "porter_stem"]
+				},
+				"search_analyzer": {
+					"tokenizer": "standard",
+					"filter": ["standard", "lowercase", "asciifolding", "porter_stem"]
+				}
+			},
+		}
+	}
+
 	try:
 		print 'Creating index...'
-		conn.indices.create_index("dicionario")
+		conn.indices.create_index("dicionario", settings=settings)
 	except:
 		pass
 
 	mapping = {
+			"equivalencia" : { 
+				"type" : "multi_field",
+				"fields" : {
+					"clean" : {
+						"type" : "string", 
+						"index_analyzer" : "index_analyzer",
+						"search_analyzer" : "search_analyzer"
+					},
+					"equivalencia" : {
+						"type" : "string",
+						"analyzer" : "standard"
+					}
+				}
+			},
+			"lexema" : { 
+				"type" : "multi_field",
+				"fields" : {
+					"clean" : {
+						"type" : "string", 
+						"index_analyzer" : "index_analyzer",
+						"search_analyzer" : "search_analyzer"
+					},
+					"lexema" : {
+						"type" : "string",
+						"analyzer" : "standard"
+					}
+				}
+			}
     	}
 
 	print 'Mapping...'
