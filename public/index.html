@@ -33,7 +33,11 @@
               <div id="verbetes">
                     <div class="verbete" data-template>
                         <h3>{{lexema}}</h3>
-                        <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/> <span>{{equivalencia}}</span>
+                        <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/> 
+                        
+                        <ol>
+                          <li data-template-for='equivalencia'>{{.}}</li>
+                        </ol>
                     </div>
               </div>
               <div class="navbar navbar-fixed-bottom">
