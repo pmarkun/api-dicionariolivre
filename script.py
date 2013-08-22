@@ -11,7 +11,7 @@ def parse_verbetes(filename='data/VERBETES.tex'):
 	turna = re.compile(r'{\\textturna}')
 	verb = re.compile(r"\\verb{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}")
 
-	verbetes_raw = verbetes_raw.replace("\n", "")
+	verbetes_raw = verbetes_raw.replace("\n", " ")
 	verbetes_raw = re.sub(italic, "*\\1*", verbetes_raw)
 	verbetes_raw = re.sub(bold, "*\\1*", verbetes_raw)
 	verbetes_raw = re.sub(turna, "", verbetes_raw)
