@@ -1,21 +1,27 @@
 import re
 import json
 import pyes, pprint
+import codecs
 #from settings import *
 
+def process_fonetica(fonema):
+	acentos = [
+		()
+	]
+
 def parse_verbetes(filename='data/VERBETES.tex'):
-	verbetes_raw = open(filename, 'r').read()
+	verbetes_raw = codecs.open(filename, 'r', encoding='utf-8').read()
 
 	italic = re.compile(r'\\textit{(.*?)}')
 	bold = re.compile(r'\\textbf{(.*?)}')
 	turna = re.compile(r'{\\textturna}')
 	verb = re.compile(r"\\verb{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}")
-
+	tilda = re.compile(r"\\\~(.)")
 	verbetes_raw = verbetes_raw.replace("\n", " ")
 	verbetes_raw = re.sub(italic, "*\\1*", verbetes_raw)
 	verbetes_raw = re.sub(bold, "*\\1*", verbetes_raw)
-	verbetes_raw = re.sub(turna, "", verbetes_raw)
-
+	verbetes_raw = re.sub(turna, u"\u0250", verbetes_raw)
+	verbetes_raw = re.sub(tilda, r'\1'+u"\u0303", verbetes_raw)
 	verbetes = []
 	for v in re.findall(verb, verbetes_raw):
 		verbete = {}
