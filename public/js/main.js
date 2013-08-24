@@ -56,6 +56,7 @@ function procurar(palavra) {
     $(".resultados").attr("id", palavra);
     $("#hash").attr("href", "#"+palavra);
     window.location.hash = palavra;
+    q['from'] = 0;
     q['query']['query_string']['query'] = palavra;
     render(q);
 }
