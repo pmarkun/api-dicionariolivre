@@ -26,6 +26,8 @@ def parse_verbetes(filename='data/VERBETES.tex'):
 	for v in re.findall(verb, verbetes_raw):
 		verbete = {}
 		verbete['lexema'] = v[0]
+		if len(verbete['lexema'].split('-')) > 1:
+			verbete['_boost'] = 0.5
 		verbete['fonetica'] = v[2]
 		verbete['gramatical'] = v[3]
 		verbete['equivalencia'] = [v[6]]
