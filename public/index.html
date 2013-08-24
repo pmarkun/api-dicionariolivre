@@ -19,6 +19,10 @@
             #verbetes .verbete {
                 text-align:justify;
             }
+            #paginate {
+              margin:40px;
+              display:none;
+            }
             </style>
       </head>
 
@@ -40,6 +44,9 @@
                         <span>{{outros}}</span>
 
                     </div>
+              </div>
+              <div id="paginate">
+                <a class="menos" href="#" onclick="paginacao('menos', q);render(q);"><<</a> :: <a class="mais" href="#" onclick="paginacao('mais', q);render(q);">>></a>
               </div>
               <div class="navbar navbar-fixed-bottom">
                   <a href="https://github.com/pmarkun/minidicionario-hedra-api">github</a> :: 
