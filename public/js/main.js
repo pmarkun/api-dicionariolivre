@@ -1,5 +1,3 @@
-SETTINGS = {};
-SETTINGS['SERVER'] = 'http://127.0.0.1:9200/' 
 q = {
         "query" : {
             "query_string" : { 
@@ -25,7 +23,7 @@ var paginacao = function(direcao, q) {
 }
 
 function render(q) {
-        $.getJSON(SETTINGS['SERVER'] + 'dicionario/_search?source=' + JSON.stringify(q), function (data){
+        $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/_search?source=' + JSON.stringify(q), function (data){
         $('.verbetes').fadeOut();
         if (q['from']+q['size'] >= data.hits.total) {
             $("#paginate .mais").hide();
