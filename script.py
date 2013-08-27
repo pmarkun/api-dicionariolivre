@@ -16,7 +16,7 @@ def parse_verbetes(filename='data/VERBETES.tex'):
 	bold = re.compile(r'\\textbf{(.*?)}')
 	turna = re.compile(r'{\\textturna}')
 	verb = re.compile(r"\\verb{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}{(.*?)}")
-	tilda = re.compile(r"\\\~(.)")
+	tilda = re.compile(r"\\\~\{{0,1}(.)\}{0,1}")
 	verbetes_raw = verbetes_raw.replace("\n", " ")
 	verbetes_raw = re.sub(italic, "*\\1*", verbetes_raw)
 	verbetes_raw = re.sub(bold, "*\\1*", verbetes_raw)
@@ -110,9 +110,9 @@ def upa_neguim(verbetes):
 
 	print 'Mapping...'
 	conn.indices.put_mapping("verbete", {'properties': mapping}, ["dicionario"])
-    print 'Indexing!'
+	print 'Indexing!'
 	for p in verbetes:
-	conn.index(p, 'dicionario', 'verbete', bulk=True)
+		conn.index(p, 'dicionario', 'verbete', bulk=True)
 	conn.refresh()
 
 verbetes =  parse_verbetes();
