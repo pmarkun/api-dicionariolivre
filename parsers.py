@@ -1,7 +1,34 @@
 import re
 import codecs
 
-def saotome(filename='data/saotome/VERBETES.tex'):
+def saotome(v):
+    verbete = {}
+    verbete['lexema'] = v[0]
+    if len(verbete['lexema'].split('-')) > 1:
+        verbete['_boost'] = 0.5
+    verbete['fonetica'] = v[2]
+    verbete['gramatical'] = v[3]
+    verbete['equivalencia'] = [v[6]]
+    verbete['outros'] = v[7]
+    return verbete
+
+
+def portugues(v):
+    verbete = {}
+    verbete['lexema'] = v[0]
+    verbete['fonetica'] = v[1]
+    verbete['rubrica'] = v[2]
+    verbete['plural'] = v[3]
+    verbete['feminino'] = v[4]
+    verbete['gramatical'] = v[5]
+    verbete['equivalencia'] = [v[6]]
+    verbete['separacao'] = v[7]
+    verbete['conjugacao'] = v[8]
+    if len(verbete['lexema'].split('-')) > 1:
+        verbete['_boost'] = 0.5
+    return verbete
+
+def parse(filename='data/saotome/VERBETES.tex', mapping=saotome):
     verbetes_raw = codecs.open(filename, 'r', encoding='utf-8').read()
 
     emph = re.compile(r'\\emph{(.*?)}') 
@@ -18,16 +45,8 @@ def saotome(filename='data/saotome/VERBETES.tex'):
     verbetes_raw = re.sub(bold, "*\\1*", verbetes_raw)
     verbetes = []
     for v in re.findall(verb, verbetes_raw):
-        verbete = {}
-        verbete['lexema'] = v[0]
-        if len(verbete['lexema'].split('-')) > 1:
-            verbete['_boost'] = 0.5
-        verbete['fonetica'] = v[2]
-        verbete['gramatical'] = v[3]
-        verbete['equivalencia'] = [v[6]]
-        verbete['outros'] = v[7]
+        verbete = mapping(v)
         verbetes.append(verbete)
-
     entradas = []
     for v in verbetes:
         bingo = False

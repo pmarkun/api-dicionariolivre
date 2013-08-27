@@ -8,7 +8,7 @@ def write_verbetes(entradas, filename):
 	arquivo.close()
 
 
-def upa_neguim(verbetes, colecao='dicionario'):
+def upa_neguim(verbetes, colecao='dicionario', reset=True):
 	print 'Connecting to ES...'
 	conn = pyes.ES('http://127.0.0.1:9200')
 	conn.delete_index_if_exists(colecao)
@@ -28,11 +28,7 @@ def upa_neguim(verbetes, colecao='dicionario'):
 		}
 	}
 
-	try:
-		print 'Creating index...'
-		conn.indices.create_index(colecao, settings=settings)
-	except:
-		pass
+	conn.indices.create_index_if_missing(colecao, settings=settings)
 
 	mapping = {
 			"equivalencia" : { 
@@ -72,5 +68,5 @@ def upa_neguim(verbetes, colecao='dicionario'):
 		conn.index(p, colecao, 'verbete', bulk=True)
 	conn.refresh()
 
-verbetes =  parsers.saotome();
+verbetes =  parsers.parse();
 upa_neguim(verbetes);
