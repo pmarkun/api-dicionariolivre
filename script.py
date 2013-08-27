@@ -110,17 +110,10 @@ def upa_neguim(verbetes):
 
 	print 'Mapping...'
 	conn.indices.put_mapping("verbete", {'properties': mapping}, ["dicionario"])
-    
-	erros = 0
-	print 'Indexing!'
+    print 'Indexing!'
 	for p in verbetes:
-		#p = verbetes[v]
-		try:
-			conn.index(p, 'dicionario', 'verbete', bulk=True)
-		except:
-			print "erro"
-			erros = erros + 1
-	print erros
+	conn.index(p, 'dicionario', 'verbete', bulk=True)
+	conn.refresh()
 
 verbetes =  parse_verbetes();
 upa_neguim(verbetes);
