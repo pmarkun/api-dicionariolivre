@@ -11,7 +11,9 @@ def write_verbetes(entradas, filename):
 def upa_neguim(verbetes, colecao='dicionario', reset=True):
 	print 'Connecting to ES...'
 	conn = pyes.ES('http://127.0.0.1:9200')
-	conn.delete_index_if_exists(colecao)
+	
+	if reset:
+		conn.delete_index_if_exists(colecao)
 
 	settings = {
 		"analysis": {
@@ -68,5 +70,11 @@ def upa_neguim(verbetes, colecao='dicionario', reset=True):
 		conn.index(p, colecao, 'verbete', bulk=True)
 	conn.refresh()
 
-verbetes =  parsers.parse();
-upa_neguim(verbetes);
+z = ['b','c','d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z', 'w']
+
+verbetes = []
+for letra in z:
+	print 'Verbeting ' + letra
+	verbetes = verbetes + parsers.parse('data/portugues/'+letra+'.tex', parsers.portugues, parsers.portugues_preprocessor);
+
+upa_neguim(verbetes, 'portugues', True);
