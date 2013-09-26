@@ -58,8 +58,9 @@ function procurar(palavra) {
     q['query']['query_string']['query'] = palavra;
     render(q);
 }
-    
+ 
 $(document).ready(function () {
+    $("#titulo").text(SETTINGS['TITULO']);
     tempo = Tempo.prepare("verbetes");
     if (window.location.hash) {
         var palavra = window.location.hash.slice(1);
@@ -72,4 +73,5 @@ $(document).ready(function () {
         procurar(palavra);
         return false;
     });
+
 });
