@@ -21,10 +21,7 @@ var paginacao = function(direcao, q) {
     }
     return q;
 }
-
-var refreshedit = function () {
-    $('.editable').editable(function(value, settings) { 
-        var id = $(this.parentElement.parentElement)[0].id;
+var edita = function(id, value, settings) { 
         //console.log(value);
         //console.log(settings);
         var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
@@ -45,6 +42,12 @@ var refreshedit = function () {
         console.log(url);
 
         return(value);   
+    }
+
+var refreshedit = function () {
+    $('.editable').editable(function (value, settings) {
+        var id = $(this.parentElement.parentElement)[0].id;
+        return edita(id, value, settings)
     },
     {
         style   : 'display: inline;width:80%'
@@ -53,11 +56,9 @@ var refreshedit = function () {
     $(".add").click(function (e) {
             var equiv = $(e.target.parentElement).find("ol");
             equiv.append('<li class="editable"></li>');
-            $('.editable').editable(function(value, settings) { 
-                console.log(this);
-                console.log(value);
-                console.log(settings);
-                return(value);   
+            $('.editable').editable(function (value, settings) {
+                var id = $(this.parentElement.parentElement)[0].id;
+                return edita(id, value, settings)
             },
             {
                 style   : 'display: inline;width:80%'
