@@ -61,6 +61,7 @@ function procurar(palavra) {
  
 $(document).ready(function () {
     $("#titulo").text(SETTINGS['TITULO']);
+    $("title").text(SETTINGS['TITULO']);
     tempo = Tempo.prepare("verbetes");
     if (window.location.hash) {
         var palavra = window.location.hash.slice(1);
