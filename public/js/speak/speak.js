@@ -1,4 +1,5 @@
 $(document).ready(function () {
+if (SETTINGS['SPEAK']) {
     var lq = {
         "query" : {
             "query_string" : { 
@@ -39,4 +40,5 @@ $(document).ready(function () {
         recognition.start();
     }
     recognition.start();
+}
 });
