@@ -8,6 +8,7 @@
             <link rel="stylesheet" href="css/bootstrap.min.css">
             <link rel="stylesheet" href="css/bootstrap-responsive.min.css"> 
             <script src="js/jquery.min.js"></script>
+            <script src="js/jquery.jeditable.mini.js"></script>
             <script src="js/bootstrap.min.js"></script>
             <script src="js/tempo.min.js"></script>
             <script src="js/settings.js"></script>
@@ -27,11 +28,19 @@
               margin:40px;
               display:none;
             }
+
+            #edit {
+              float:right;
+            }
+            .add {
+              display:none;
+            }
             </style>
       </head>
 
       <body>
             <div class="container">
+                <a href="#" id="edit">edit off</a>
                 <h2 id="titulo">Dicionário Hedra</h2>
               <form id="buscar" class="form-search">
                 <input type="text" class="input-xxlarge search-query" placeholder="Palavra...">
@@ -39,14 +48,14 @@
                 <a id="hash"></a>
               </form>
               <div id="verbetes">
-                    <div class="verbete" data-template>
+                    <div id="{{id}}" class="verbete" data-template>
                         <h3>{{lexema}}</h3>
                         <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
                         <ol>
-                          <li data-template-for='equivalencia'>{{.}}</li>
+                          <li class="equivalencia editable" data-template-for='equivalencia'>{{.}}</li>
                         </ol>
                         <span>{{outros}}</span>
-
+                        <a href="#" class="add">+</a>
                     </div>
               </div>
               <div id="paginate">

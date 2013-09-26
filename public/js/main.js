@@ -22,6 +22,52 @@ var paginacao = function(direcao, q) {
     return q;
 }
 
+var refreshedit = function () {
+    $('.editable').editable(function(value, settings) { 
+        var id = $(this.parentElement.parentElement)[0].id;
+        //console.log(value);
+        //console.log(settings);
+        var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+        var url = SETTINGS['SERVER'] + SETTINGS['POOL'][0] + '/verbete/';
+        $.getJSON(url_get+id, function (data) {
+            var palavra = data['_source'];
+            console.log(data['_source']);
+            palavra['equivalencia'] = []
+            $("#"+id +" .equivalencia").each(function (index, item) {
+                palavra['equivalencia'].push(item.textContent);
+            })
+            console.log(palavra);
+            $.post(url+id+"/_create", JSON.stringify(palavra), function (result) {
+                console.log(result);
+            });
+        });
+        
+        console.log(url);
+
+        return(value);   
+    },
+    {
+        style   : 'display: inline;width:80%'
+    });
+
+    $(".add").click(function (e) {
+            var equiv = $(e.target.parentElement).find("ol");
+            equiv.append('<li class="editable"></li>');
+            $('.editable').editable(function(value, settings) { 
+                console.log(this);
+                console.log(value);
+                console.log(settings);
+                return(value);   
+            },
+            {
+                style   : 'display: inline;width:80%'
+            });
+
+    });
+    $(".add").show();
+
+    }
+
 function render(q) {
         $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/_search?source=' + JSON.stringify(q), function (data){
         $('.verbetes').fadeOut();
@@ -46,8 +92,12 @@ function render(q) {
         }
         $.each(data.hits.hits, function (index, t) {
             console.log(t);
+            t['_source']['id'] = t['_id'];
             tempo.append(t['_source'])
         });
+        if (SETTINGS['edit']) {
+            refreshedit();
+        }
     });
 }
 function procurar(palavra) {
@@ -75,4 +125,17 @@ $(document).ready(function () {
         return false;
     });
 
+    $("#edit").click(function (e) {
+        if (SETTINGS['edit']) {
+            $("#edit").text("edit off");
+            SETTINGS['edit'] = false;
+        }
+        else {
+            $("#edit").text("edit on");
+            SETTINGS['edit'] = true;
+            refreshedit();
+        }
+    });
+
+    
 });
