@@ -1,3 +1,4 @@
 SETTINGS = {};
-SETTINGS['SERVER'] = 'http://127.0.0.1:9200/' 
-SETTINGS['COLECOES'] = ['dicionario']
+SETTINGS['TITULO'] = 'Português-Português';
+SETTINGS['SERVER'] = 'http://127.0.0.1:9200/';
+SETTINGS['COLECOES'] = ['dicionario'];
