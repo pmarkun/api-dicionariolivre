@@ -70,7 +70,7 @@ def upa_neguim(verbetes, colecao='dicionario', reset=True):
 		conn.index(p, colecao, 'verbete', bulk=True)
 	conn.refresh()
 
-z = ['b','c','d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z', 'w']
+z = ['a', 'b','c','d', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z', 'w']
 
 verbetes = []
 for letra in z:
