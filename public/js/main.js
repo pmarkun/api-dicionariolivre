@@ -25,7 +25,7 @@ var edita = function(id, value, settings) {
         //console.log(value);
         //console.log(settings);
         var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
-        var url = SETTINGS['SERVER'] + SETTINGS['POOL'][0] + '/verbete/';
+        var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
         $.getJSON(url_get+id, function (data) {
             var palavra = data['_source'];
             console.log(data['_source']);
@@ -34,7 +34,7 @@ var edita = function(id, value, settings) {
                 palavra['equivalencia'].push(item.textContent);
             })
             console.log(palavra);
-            $.post(url+id+"/_create", JSON.stringify(palavra), function (result) {
+            $.post(url+id+"/", JSON.stringify(palavra), function (result) {
                 console.log(result);
             });
         });
@@ -55,7 +55,7 @@ var refreshedit = function () {
 
     $(".add").click(function (e) {
             var equiv = $(e.target.parentElement).find("ol");
-            equiv.append('<li class="editable"></li>');
+            equiv.append('<li class="equivalencia editable"></li>');
             $('.editable').editable(function (value, settings) {
                 var id = $(this.parentElement.parentElement)[0].id;
                 return edita(id, value, settings)
