@@ -1,0 +1,17 @@
+.container {
+    text-align:center;
+}
+#verbetes .verbete {
+    text-align:justify;
+}
+#paginate {
+  margin:40px;
+  display:none;
+}
+
+#edit {
+  float:right;
+}
+.add {
+  display:none;
+}
