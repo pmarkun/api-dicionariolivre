@@ -22,27 +22,41 @@ var paginacao = function(direcao, q) {
     return q;
 }
 var edita = function(id, value, settings) { 
-        //console.log(value);
-        //console.log(settings);
         var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
-        var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
         $.getJSON(url_get+id, function (data) {
             var palavra = data['_source'];
-            console.log(data['_source']);
             palavra['equivalencia'] = []
             $("#"+id +" .equivalencia").each(function (index, item) {
                 palavra['equivalencia'].push(item.textContent);
             })
-            console.log(palavra);
-            $.post(url+id+"/", JSON.stringify(palavra), function (result) {
-                console.log(result);
+            SETTINGS['buffer'] = {
+                'id' : id,
+                'palavra' : palavra
+            };
+            console.log(SETTINGS['buffer']);
+            $("#"+id+ " .save").click(function (e) {
+                save();
             });
+            $("#"+id+ " .save").show();
         });
-        
-        console.log(url);
-
         return(value);   
     }
+
+var save = function() {
+    if (SETTINGS['buffer']) {
+        var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+        var id = SETTINGS['buffer']['id'];
+        var palavra = SETTINGS['buffer']['palavra'];
+        alert("Em breve...");
+        /*
+        $.post(url+id+"/", JSON.stringify(palavra), function (result) {
+            console.log(result);
+        });
+        */
+        SETTINGS['buffer'] = {};
+        $("#"+id+ " .save").hide();
+    }
+}
 
 var refreshedit = function () {
     $('.editable').editable(function (value, settings) {
@@ -66,7 +80,6 @@ var refreshedit = function () {
 
     });
     $(".add").show();
-
     }
 
 function render(q) {
@@ -92,7 +105,6 @@ function render(q) {
             tempo.append({ "lexema" : "Verbete não encontrado."});
         }
         $.each(data.hits.hits, function (index, t) {
-            console.log(t);
             t['_source']['id'] = t['_id'];
             tempo.append(t['_source'])
         });
@@ -137,6 +149,4 @@ $(document).ready(function () {
             refreshedit();
         }
     });
-
-    
 });

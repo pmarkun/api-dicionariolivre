@@ -12,6 +12,6 @@
 #edit {
   float:right;
 }
-.add {
+.add, .save {
   display:none;
 }
