@@ -45,10 +45,12 @@ a:hover {
 .verbete {
     text-align:justify;
     opacity:0.8;
+    margin:20px 0px 40px 0px;
 }
 .verbete:hover {
     opacity:1;
 }
+
 #paginate {
   margin:40px;
   display:none;
@@ -62,4 +64,8 @@ a:hover {
   float:right;
   font-size:0.8em;
   clear:right;
+}
+
+.save {
+    margin-bottom:-5px;
 }
