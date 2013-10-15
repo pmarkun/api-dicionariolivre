@@ -59,4 +59,7 @@ a:hover {
 }
 .add, .save {
   display:none;
+  float:right;
+  font-size:0.8em;
+  clear:right;
 }
