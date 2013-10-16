@@ -3,3 +3,4 @@ SETTINGS['TITULO'] = 'Dicionário Hedra';
 SETTINGS['SERVER'] = 'http://127.0.0.1:9200/';
 SETTINGS['COLECOES'] = ['dicionario'];
 SETTINGS['SPEAK'] = false;
+SETTINGS['RECAPTCHA_PUBLIC'] = "recaptcha public key";
