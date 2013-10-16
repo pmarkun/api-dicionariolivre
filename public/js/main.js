@@ -27,7 +27,12 @@ var edita = function(id, value, settings) {
             var palavra = data['_source'];
             palavra['equivalencia'] = []
             $("#"+id +" .equivalencia").each(function (index, item) {
-                palavra['equivalencia'].push(item.textContent);
+                if (item.textContent != 'Click to edit') {
+                    palavra['equivalencia'].push(item.textContent);
+                }
+                else {
+                    $(item).remove();
+                }
             })
             SETTINGS['buffer'] = {
                 'id' : id,
@@ -149,7 +154,7 @@ function procurar(palavra) {
     q['query']['query_string']['query'] = palavra;
     render(q);
 }
- 
+
 $(document).ready(function () {
     $("#titulo").text(SETTINGS['TITULO']);
     $("title").text(SETTINGS['TITULO']);
