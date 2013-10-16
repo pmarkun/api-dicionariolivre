@@ -90,9 +90,6 @@ a:hover {
   top: 15px;
   right: 15px;
 }
-#recaptcha_area {
-  margin:0 auto;
-}
 
 .add, .save {
   display:none;
