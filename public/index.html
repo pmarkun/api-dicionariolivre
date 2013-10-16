@@ -31,7 +31,8 @@
                 <button class="btn" type="submit">Buscar</button>
                 <a id="hash"></a>
               </form>
-              <div id="verbetes">
+              <div id="verbetes" class="empty">
+                    <hr />
                     <div id="{{id}}" class="verbete" data-template>
                         <a href="#" class="add">adicionar significado</a>
                         <h3>{{lexema}}</h3>
@@ -43,7 +44,8 @@
                         <a href="#" class="save">salvar</a>
                     </div>
               </div>
-              <div id="paginate">
+              <div id="paginate" class="empty">
+                <hr />
                 <a class="menos" href="#" onclick="paginacao('menos', q);render(q);"><<</a> :: <a class="mais" href="#" onclick="paginacao('mais', q);render(q);">>></a>
               </div>
               <div class="navbar navbar-fixed-bottom">
@@ -52,13 +54,25 @@
             </div>
             </div>
             <div id="save_form" class="modal">
-              <p>One fine body&hellip;</p>
+              <h2>Adicionar sugestão</h2>
+              <p>Verifique sua sugestão e clique em OK para enviar.</p>
+              <div id="sugestao">
+                <div data-template>
+                  <h3>{{lexema}}</h3>
+                  <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
+                  <ol>
+                    <li data-template-for='equivalencia'>{{.}}</li>
+                  </ol>
+                  <span>{{outros}}</span>
+                </div>
+              </div>
               <div id="recaptcha_div"></div>
-              <a id="save" class="btn">Salvar</a>
+              <a id="save" class="btn">OK</a>
+              <a class="btn close" data-dismiss="modal">X</a>
             </div>
             <div id="complete" class="modal">
               <p>Sugestão enviada com sucesso!</p>
-              <a class="btn" onclick="javascript:$('#complete').modal('hide');">Fechar</a>
+              <a class="btn close" data-dismiss="modal">X</a>
             </div>
       </body>
 </html>

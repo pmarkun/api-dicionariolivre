@@ -55,6 +55,7 @@ var save_modal = function() {
             console.log(result);
         });
         */
+        sugestao = Tempo.prepare("sugestao").render(SETTINGS['buffer']['palavra']);
         $("#save_form").modal('show');
         $("#save").click(function (e) {
             save()
@@ -118,6 +119,10 @@ var refreshedit = function () {
 function render(q) {
         $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/_search?source=' + JSON.stringify(q), function (data){
         $('.verbetes').fadeOut();
+        if (data.hits.hits) {
+            console.log(data);
+            $(".empty").toggleClass("empty");
+        }
         if (q['from']+q['size'] >= data.hits.total) {
             $("#paginate .mais").hide();
         }
