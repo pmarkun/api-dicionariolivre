@@ -7,15 +7,16 @@
             <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
             <link rel="stylesheet" href="css/bootstrap.min.css">
             <link rel="stylesheet" href="css/bootstrap-responsive.min.css"> 
-            <script src="js/jquery.min.js"></script>
-            <script src="js/jquery.jeditable.mini.js"></script>
-            <script src="js/bootstrap.min.js"></script>
-            <script src="js/tempo.min.js"></script>
-            <script src="js/settings.js"></script>
-            <script src="js/main.js"></script>
+            <script type="text/javascript" src="js/jquery.min.js"></script>
+            <script type="text/javascript" src="js/jquery.jeditable.mini.js"></script>
+            <script type="text/javascript" src="js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="js/tempo.min.js"></script>
+            <script type="text/javascript" src="js/settings.js"></script>
+            <script type="text/javascript" src="js/main.js"></script>
+            <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 
-            <script src="js/speak/mespeak.js"></script>
-            <script src="js/speak/speak.js"></script>
+            <script type="text/javascript" src="js/speak/mespeak.js"></script>
+            <script type="text/javascript" src="js/speak/speak.js"></script>
             
             <link rel="stylesheet" href="css/main.css">
       </head>
@@ -49,6 +50,11 @@
                   <a href="https://github.com/pmarkun/minidicionario-hedra-api">github</a> :: 
                   <a href="http://www.hedra.com.br/livros/minidicionario-livre-da-lingua-portuguesa">hedra</a>
             </div>
+            </div>
+            <div id="save_form" class="modal">
+              <p>One fine body&hellip;</p>
+              <div id="recaptcha_div"></div>
+              <a id="save" class="btn">Salvar</a>
             </div>
       </body>
 </html>

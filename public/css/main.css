@@ -59,6 +59,10 @@ a:hover {
 #edit {
   float:right;
 }
+#save_form {
+    display:none;
+}
+
 .add, .save {
   display:none;
   float:right;

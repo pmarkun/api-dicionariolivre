@@ -35,27 +35,50 @@ var edita = function(id, value, settings) {
             };
             console.log(SETTINGS['buffer']);
             $("#"+id+ " .save").click(function (e) {
-                save();
+                save_modal();
+                console.log('oi');
             });
             $("#"+id+ " .save").show();
         });
         return(value);   
     }
 
-var save = function() {
+var save_modal = function() {
     if (SETTINGS['buffer']) {
         var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
         var id = SETTINGS['buffer']['id'];
-        var palavra = SETTINGS['buffer']['palavra'];
-        alert("Em breve...");
         /*
         $.post(url+id+"/", JSON.stringify(palavra), function (result) {
             console.log(result);
         });
         */
-        SETTINGS['buffer'] = {};
+        $("#save_form").modal('show');
+        $("#save").click(function (e) {
+            save()
+        });
+        Recaptcha.create("6LeJ2egSAAAAAD1zJvoPR5kT7hTTIlZx3KkXiKWw", "recaptcha_div", {
+            theme: "red",
+            callback: Recaptcha.focus_response_field
+        });
         $("#"+id+ " .save").hide();
     }
+}
+
+var save = function() {
+    var palavra = SETTINGS['buffer']['palavra'];
+    console.log(palavra);
+    console.log(Recaptcha.get_response());
+    console.log(Recaptcha.get_challenge());
+
+    var post_ops = {
+        'palavra' : palavra,
+        'recaptcha_challenge_field' : Recaptcha.get_challenge(),
+        'recaptcha_response_field' : Recaptcha.get_response()
+    }
+    $.post("http://0.0.0.0:9000/server.php", post_ops, function (result) {
+        console.log(result);
+    });
+    SETTINGS['buffer'] = {};
 }
 
 var refreshedit = function () {
