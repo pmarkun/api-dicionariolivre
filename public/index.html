@@ -22,33 +22,35 @@
       </head>
 
       <body>
-            <div class="container">
+            <div class="container front">
                 <a href="#" id="edit">edit off</a>
-                <h2 id="titulo">Dicionário Livre</h2>
+                <div id="titulo" class="big-space"> 
+                  <a href="/"><span>dicionário livre</span><div class="bg"></div></a>
+                </div>
                 <h3 id="lang">português - português</h3>
               <form id="buscar" class="form-search">
                 <input type="text" placeholder="Palavra...">
                 <button class="btn" type="submit">Buscar</button>
                 <a id="hash"></a>
               </form>
-              <div id="verbetes" class="empty">
+              <div id="verbetes">
                     <hr />
                     <div id="{{id}}" class="verbete" data-template>
                         <a href="#" class="add empty">adicionar significado</a>
                         <h3>{{lexema}}</h3>
                         <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
                         <ol>
-                          <li class="equivalencia editable" data-template-for='equivalencia'>{{.}}</li>
+                          <li class="equivalencia editable" data-template-for='equivalencia'><span>{{.}}</span></li>
                         </ol>
                         <span>{{outros}}</span>
                         <a href="#" class="save">salvar</a>
                     </div>
               </div>
-              <div id="paginate" class="empty">
+              <div id="paginate">
                 <hr />
                 <a class="menos" href="#" onclick="paginacao('menos', q);render(q);"><<</a> :: <a class="mais" href="#" onclick="paginacao('mais', q);render(q);">>></a>
               </div>
-              <div class="navbar navbar-fixed-bottom">
+              <div class="navbar navbar-static-bottom">
                   <a href="https://github.com/pmarkun/api-dicionariolivre">github</a> :: 
                   <a href="http://www.hedra.com.br/livros/minidicionario-livre-da-lingua-portuguesa">hedra</a>
             </div>

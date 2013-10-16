@@ -19,9 +19,17 @@ a:hover {
     text-align:center;
 }
 
-#titulo {
+.front #titulo {
+  margin-top:230px !important;
+}
+
+#titulo a {
+    margin-top:30px;
+    display:block;
     color:#face3a;
     font-weight: bold;
+    font-size:3em;
+    letter-spacing:-3px;
 }
 
 #lang {
@@ -49,6 +57,14 @@ a:hover {
   opacity:0.8;
 }
 
+#verbetes ol {
+  font-weight: bold;
+  font-size:1.1em;
+}
+
+#verbetes ol li span {
+  font-weight: normal;
+}
 .verbete {
     text-align:justify;
     opacity:0.8;
@@ -108,4 +124,25 @@ a:hover {
 
 .empty {
   display:none !important;
+}
+
+.bg {
+  display:inline-block;
+  background-image: url('../static/cc_logo.png');
+  width:28px;
+  height: 28px;
+  margin-left:5px;
+  margin-right:-28px;
+ }
+
+.front {
+  background-image: url('../static/bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment:fixed;
+  min-height: 600px;
+}
+
+.front #verbetes, .front #paginate {
+  display:none;
 }

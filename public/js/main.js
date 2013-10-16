@@ -124,8 +124,7 @@ function render(q) {
         $('.verbetes').fadeOut();
         if (data.hits.hits) {
             console.log(data);
-            $("#verbetes").toggleClass("empty");
-            $("#paginate").toggleClass("empty");
+            $(".container").removeClass("front");
         }
         if (q['from']+q['size'] >= data.hits.total) {
             $("#paginate .mais").hide();
@@ -165,7 +164,7 @@ function procurar(palavra) {
 }
 
 $(document).ready(function () {
-    $("#titulo").text(SETTINGS['TITULO']);
+    $("#titulo span").text(SETTINGS['TITULO']);
     $("title").text(SETTINGS['TITULO']);
     tempo = Tempo.prepare("verbetes");
     sugestao = Tempo.prepare("sugestao");
