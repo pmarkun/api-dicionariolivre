@@ -34,6 +34,7 @@ var edita = function(id, value, settings) {
                     $(item).remove();
                 }
             })
+            console.log(palavra);
             SETTINGS['buffer'] = {
                 'id' : id,
                 'palavra' : palavra
@@ -48,6 +49,7 @@ var edita = function(id, value, settings) {
 
 var save_modal = function() {
     if (SETTINGS['buffer']) {
+
         var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
         var id = SETTINGS['buffer']['id'];
         /*
@@ -55,7 +57,7 @@ var save_modal = function() {
             console.log(result);
         });
         */
-        sugestao = Tempo.prepare("sugestao").render(SETTINGS['buffer']['palavra']);
+        sugestao.render(SETTINGS['buffer']['palavra']);
         $("#save_form").modal('show');
         $("#save").click(function (e) {
             save()
@@ -164,6 +166,7 @@ $(document).ready(function () {
     $("#titulo").text(SETTINGS['TITULO']);
     $("title").text(SETTINGS['TITULO']);
     tempo = Tempo.prepare("verbetes");
+    sugestao = Tempo.prepare("sugestao");
     if (window.location.hash) {
         var palavra = window.location.hash.slice(1);
         $("#buscar input").val(palavra);
