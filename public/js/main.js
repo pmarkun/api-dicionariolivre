@@ -22,52 +22,53 @@ var paginacao = function(direcao, q) {
     return q;
 }
 var edita = function(id, value, settings) { 
-        var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
-        $.getJSON(url_get+id, function (data) {
-            var palavra = data['_source'];
-            palavra['equivalencia'] = []
-            $("#"+id +" .equivalencia").each(function (index, item) {
-                if (item.textContent != 'Click to edit') {
-                    palavra['equivalencia'].push(item.textContent);
-                }
-                else {
-                    $(item).remove();
-                }
-            })
-            console.log(palavra);
-            SETTINGS['buffer'] = {
-                'id' : id,
-                'palavra' : palavra
-            };
-            $("#"+id+ " .save").click(function (e) {
-                save_modal();
-            });
-            $("#"+id+ " .save").show();
+        $("#"+id+ " .save").click(function (e) {
+            console.log(id);
+            save_modal(id);
         });
+        $("#"+id+ " .save").show();
         return(value);   
     }
 
-var save_modal = function() {
-    if (SETTINGS['buffer']) {
+var save_modal = function(id) {
+    var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+    $.getJSON(url_get+id, function (data) {
+        var palavra = data['_source'];
+        palavra['equivalencia'] = [];
+        $("#"+id +" .equivalencia").each(function (index, item) {
+            if (item.textContent != 'Click to edit') {
+                palavra['equivalencia'].push(item.textContent);
+            }
+            else {
+                $(item).remove();
+            }
+        });
+        SETTINGS['buffer'] = {
+            'id' : id,
+            'palavra' : palavra
+        };
+    
+        if (SETTINGS['buffer']) {
 
-        var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
-        var id = SETTINGS['buffer']['id'];
-        /*
-        $.post(url+id+"/", JSON.stringify(palavra), function (result) {
-            console.log(result);
-        });
-        */
-        sugestao.render(SETTINGS['buffer']['palavra']);
-        $("#save_form").modal('show');
-        $("#save").click(function (e) {
-            save()
-        });
-        Recaptcha.create(SETTINGS['RECAPTCHA_PUBLIC'], "recaptcha_div", {
-            theme: "red",
-            callback: Recaptcha.focus_response_field
-        });
-        $("#"+id+ " .save").hide();
-    }
+            var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+            /*
+            $.post(url+id+"/", JSON.stringify(palavra), function (result) {
+                console.log(result);
+            });
+            */
+            sugestao.render(SETTINGS['buffer']['palavra']);
+            console.log(SETTINGS['buffer']['palavra']);
+            $("#save_form").modal('show');
+            $("#save").click(function (e) {
+                save()
+            });
+            Recaptcha.create(SETTINGS['RECAPTCHA_PUBLIC'], "recaptcha_div", {
+                theme: "red",
+                callback: Recaptcha.focus_response_field
+            });
+            $("#"+id+ " .save").hide();
+        }
+    });
 }
 
 var save = function() {
@@ -115,7 +116,7 @@ var refreshedit = function () {
             });
 
     });
-    $(".add").show();
+    $(".add").toggleClass("empty");
     }
 
 function render(q) {
@@ -123,7 +124,8 @@ function render(q) {
         $('.verbetes').fadeOut();
         if (data.hits.hits) {
             console.log(data);
-            $(".empty").toggleClass("empty");
+            $("#verbetes").toggleClass("empty");
+            $("#paginate").toggleClass("empty");
         }
         if (q['from']+q['size'] >= data.hits.total) {
             $("#paginate .mais").hide();

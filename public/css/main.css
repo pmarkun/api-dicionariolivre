@@ -58,6 +58,10 @@ a:hover {
     opacity:1;
 }
 
+.verbete:hover .add {
+  display: block;
+}
+
 #paginate {
   margin:40px;
 }
@@ -103,5 +107,5 @@ a:hover {
 }
 
 .empty {
-  display:none;
+  display:none !important;
 }
