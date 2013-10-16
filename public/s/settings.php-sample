@@ -1,0 +1,5 @@
+<?php 
+$SETTINGS = array();
+$SETTINGS['SERVER'] = "elasticsearch url";
+$SETTINGS['RECAPTCHA_KEY'] = "recaptcha key";
+?>

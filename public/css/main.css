@@ -59,10 +59,13 @@ a:hover {
 #edit {
   float:right;
 }
-#save_form {
+#save_form, #complete {
     display:none;
 }
 
+.modal {
+  color:#000;
+}
 .add, .save {
   display:none;
   float:right;

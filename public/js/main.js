@@ -33,10 +33,8 @@ var edita = function(id, value, settings) {
                 'id' : id,
                 'palavra' : palavra
             };
-            console.log(SETTINGS['buffer']);
             $("#"+id+ " .save").click(function (e) {
                 save_modal();
-                console.log('oi');
             });
             $("#"+id+ " .save").show();
         });
@@ -65,20 +63,27 @@ var save_modal = function() {
 }
 
 var save = function() {
+            var url = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+    var id = SETTINGS['buffer']['id'];
     var palavra = SETTINGS['buffer']['palavra'];
-    console.log(palavra);
-    console.log(Recaptcha.get_response());
-    console.log(Recaptcha.get_challenge());
-
     var post_ops = {
+        'id' : id,
         'palavra' : palavra,
         'recaptcha_challenge_field' : Recaptcha.get_challenge(),
-        'recaptcha_response_field' : Recaptcha.get_response()
+        'recaptcha_response_field' : Recaptcha.get_response(),
+        'colecoes' : SETTINGS['COLECOES'].join(',')
     }
     $.post("http://0.0.0.0:9000/server.php", post_ops, function (result) {
-        console.log(result);
+        var r = jQuery.parseJSON(result);
+        if (r["ok"]) {
+        SETTINGS['buffer'] = {};
+        $("#save_form").modal('hide');
+        $("#complete").modal('show');
+        }
+        else {
+            console.log(r);
+        }
     });
-    SETTINGS['buffer'] = {};
 }
 
 var refreshedit = function () {
