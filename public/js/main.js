@@ -97,7 +97,7 @@ var save = function() {
 
 var refreshedit = function () {
     $('.editable').editable(function (value, settings) {
-        var id = $(this.parentElement.parentElement)[0].id;
+        var id = $(this.parentElement.parentElement.parentElement)[0].id;
         return edita(id, value, settings)
     },
     {
@@ -106,9 +106,9 @@ var refreshedit = function () {
 
     $(".add").click(function (e) {
             var equiv = $(e.target.parentElement).find("ol");
-            equiv.append('<li class="equivalencia editable"></li>');
+            equiv.append('<li class="equivalencia"><span class="editable"></span></li>');
             $('.editable').editable(function (value, settings) {
-                var id = $(this.parentElement.parentElement)[0].id;
+                var id = $(this.parentElement.parentElement.parentElement)[0].id;
                 return edita(id, value, settings)
             },
             {
