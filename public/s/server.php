@@ -12,7 +12,7 @@
     die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
          "(reCAPTCHA said: " . $resp->error . ")");
   } else {
-    $url = $SETTINGS['SERVER'] . $_POST['colecoes'] . "/verbete/" . $_POST['id'] ."/";
+    $url = $SETTINGS['SERVER'] . $_POST['colecoes']."-suggest" . "/verbete/" . $_POST['id'] ."/";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HEADER, 0);
