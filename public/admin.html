@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  
+      <head>
+            <title>Dicionário Hedra</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+            <link rel="stylesheet" href="css/bootstrap.min.css">
+            <link rel="stylesheet" href="css/bootstrap-responsive.min.css"> 
+            <script type="text/javascript" src="js/jquery.min.js"></script>
+            <script type="text/javascript" src="js/jquery.jeditable.mini.js"></script>
+            <script type="text/javascript" src="js/jquery.sortable.js"></script>
+            <script type="text/javascript" src="js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="js/tempo.min.js"></script>
+            <script type="text/javascript" src="js/settings.js"></script>
+            <script type="text/javascript" src="js/admin.js"></script>
+            <link rel="stylesheet" href="css/main.css">
+
+            <style>
+                  .container {
+                        text-align: left;
+                  }
+                  #sugestoes {
+                        float:left;
+                  }
+
+                  #original {
+                        float:right;
+                        width:50%;
+                  }
+
+                  .remove {
+                        float:right;
+                        color:yellow;
+                  }
+            </style>
+            <script>
+                  q = {}
+
+                  var save = function () {
+                        console.log('save function');
+                  };
+
+                  var loadOriginal = function (id) {
+                        $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',')+'/verbete/'+id+'/', function (data) {
+                              data['_source']['id'] = data['_id'];
+                              original.render(data['_source'])
+                              $("#orig-"+id+" ol").sortable();
+                              $("#orig-"+id+" li").append("<span class='remove'>X</span>");
+                              $("#orig-"+id+" li .remove").each(function (index, item) {
+                                    console.log(item);
+                                    $(item).click(function (e) {
+                                          $(e.currentTarget.parentNode).remove();
+                                    });
+                              });
+                        });
+                  }
+
+                  var remove = function (id) {
+                        $("#"+id).remove();
+                        //funcao p/ remover do server
+                  }
+
+                  var move = function(id, equiv) {
+                        $(equiv).appendTo("#orig-"+id + " ol");
+                        $("#orig-"+id+" ol").sortable();
+                        $("#orig-"+id+" ol").sortable();
+                        $(equiv).append("<span class='remove'>X</span>");
+                        $("#orig-"+id+" li .remove").each(function (index, item) {
+                              console.log(item);
+                              $(item).click(function (e) {
+                                    $(e.currentTarget.parentNode).remove();
+                              });
+                        });
+                  }
+
+                  $(document).ready(function () {
+                        sugestoes = Tempo.prepare("sugestoes");
+                        original = Tempo.prepare("original");
+
+                        console.log('Cowabanga!');
+                        $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',')+'-suggest' + '/_search?source=' + JSON.stringify(q), function (data){
+                                    $.each(data.hits.hits, function (index, t) {
+                                          id = t['_id'];
+                                          t['_source']['id'] = t['_id'];
+                                          sugestoes.append(t['_source'])
+                                          $("#"+id + " h3").click(function (e) {
+                                                e.stopPropagation();
+                                                loadOriginal(e.currentTarget.parentNode.id);
+                                          });
+                                          $("#"+id+ " .remove").click(function (e) {
+                                                remove(e.currentTarget.parentNode.id);
+                                          });
+
+                                          $("#"+id+ " .equivalencia").click(function (e) {
+                                                move(e.currentTarget.parentNode.parentNode.id, e.currentTarget);
+                                          });
+                                    });
+                              });
+                  });
+            </script>
+      </head>
+
+<body>
+      <div class="container admin">
+            <div id="sugestoes">
+                  <div id="{{id}}" class="verbete-suggest" data-template>
+                        <a href="#" class="remove">X</a>
+                        <h3>{{lexema}}</h3>
+                        <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
+                        <ol>
+                          <li class="equivalencia" data-template-for='equivalencia'><span class="editable">{{.}}</span>
+                          </li>
+                        </ol>
+                        <span>{{outros}}</span>
+                  </div>
+            </div>
+            <div id="original">
+                  <div id="orig-{{id}}" class="verbete" data-template>
+                  <h3>{{lexema}}</h3>
+                  <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
+                  <ol>
+                  <li class="equivalencia" data-template-for='equivalencia'><span class="editable">{{.}}</span></li>
+                  </ol>
+                  <span>{{outros}}</span>
+                  </div>
+      </div>
+</body>
