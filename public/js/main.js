@@ -23,7 +23,6 @@ var paginacao = function(direcao, q) {
 }
 var edita = function(id, value, settings) { 
         $("#"+id+ " .save").click(function (e) {
-            console.log(id);
             save_modal(id);
         });
         $("#"+id+ " .save").show();
