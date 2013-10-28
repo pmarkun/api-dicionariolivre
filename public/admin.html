@@ -37,22 +37,56 @@
             <script>
                   q = {}
 
-                  var save = function () {
-                        console.log('save function');
-                  };
+                  var makeEditable = function () {
+                        $('.editable').editable(function (value, settings) {
+                               var id = $(this.parentElement.parentElement.parentElement)[0].id;
+                              return value;
+                        },
+                        {
+                              style   : 'display: inline;width:80%'
+                        });
+                  }
+
+                  var save = function (id) {
+                        SETTINGS['buffer'] = {};
+                        var url_get = SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',') + '/verbete/';
+                        $.getJSON(url_get+id, function (data) {
+                        var palavra = data['_source'];
+                        palavra['equivalencia'] = [];
+                        $("#orig-"+id +" .equivalencia").each(function (index, item) {
+                              if (item.textContent != 'Click to edit') {
+                                    palavra['equivalencia'].push(item.textContent);
+                              }
+                              else {
+                                    $(item).remove();
+                              }
+                        });
+        
+                        SETTINGS['buffer'] = {
+                              'id' : id,
+                              'palavra' : palavra
+                        };
+                        alert('save function');
+                        console.log(SETTINGS['buffer']);
+                        });
+                  }
 
                   var loadOriginal = function (id) {
                         $.getJSON(SETTINGS['SERVER'] + SETTINGS['COLECOES'].join(',')+'/verbete/'+id+'/', function (data) {
                               data['_source']['id'] = data['_id'];
                               original.render(data['_source'])
                               $("#orig-"+id+" ol").sortable();
+                              $("#orig-"+id+ " .save").show();
+                              $("#orig-"+id+ " .save").click(function (e) {
+                                    save(id);
+                              });
                               $("#orig-"+id+" li").append("<span class='remove'>X</span>");
                               $("#orig-"+id+" li .remove").each(function (index, item) {
-                                    console.log(item);
                                     $(item).click(function (e) {
                                           $(e.currentTarget.parentNode).remove();
                                     });
                               });
+                              makeEditable();
                         });
                   }
 
@@ -62,16 +96,17 @@
                   }
 
                   var move = function(id, equiv) {
-                        $(equiv).appendTo("#orig-"+id + " ol");
-                        $("#orig-"+id+" ol").sortable();
-                        $("#orig-"+id+" ol").sortable();
-                        $(equiv).append("<span class='remove'>X</span>");
-                        $("#orig-"+id+" li .remove").each(function (index, item) {
-                              console.log(item);
-                              $(item).click(function (e) {
-                                    $(e.currentTarget.parentNode).remove();
+                        if ($("#orig-"+id + " ol").length != 0) {
+                              $(equiv).appendTo("#orig-"+id + " ol");
+                              $("#orig-"+id+" ol").sortable();
+                              $(equiv).append("<span class='remove'>X</span>");
+                              $("#orig-"+id+" li .remove").each(function (index, item) {
+                                    $(item).click(function (e) {
+                                          $(e.currentTarget.parentNode).remove();
+                                    });
                               });
-                        });
+                              makeEditable();
+                        }
                   }
 
                   $(document).ready(function () {
@@ -103,7 +138,9 @@
 
 <body>
       <div class="container admin">
+
             <div id="sugestoes">
+                  <h1>Sugestões</h1>
                   <div id="{{id}}" class="verbete-suggest" data-template>
                         <a href="#" class="remove">X</a>
                         <h3>{{lexema}}</h3>
@@ -116,6 +153,7 @@
                   </div>
             </div>
             <div id="original">
+                  <h1>Dicionário</h1>
                   <div id="orig-{{id}}" class="verbete" data-template>
                   <h3>{{lexema}}</h3>
                   <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
@@ -123,6 +161,28 @@
                   <li class="equivalencia" data-template-for='equivalencia'><span class="editable">{{.}}</span></li>
                   </ol>
                   <span>{{outros}}</span>
+                  <a href="#" class="save">salvar</a>
                   </div>
       </div>
+      <div id="save_form" class="modal">
+              <h2>Adicionar sugestão</h2>
+              <p>Verifique sua sugestão e clique em OK para enviar.</p>
+              <div id="sugestao">
+                <div data-template>
+                  <h3>{{lexema}}</h3>
+                  <b>{{fonetica}}</b> <span>{{gramatical}}</span> <br/>
+                  <ol>
+                    <li data-template-for='equivalencia'>{{.}}</li>
+                  </ol>
+                  <span>{{outros}}</span>
+                </div>
+              </div>
+              <a id="save" class="btn">OK</a>
+              <a class="btn close" data-dismiss="modal">X</a>
+            </div>
+            <div id="complete" class="modal">
+              <p>Sugestão enviada com sucesso!</p>
+              <a class="btn close" data-dismiss="modal">X</a>
+            </div>
+
 </body>
